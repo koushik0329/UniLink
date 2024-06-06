@@ -1,0 +1,27 @@
+name: cassandra_cluster
+services:
+  node-1-cassandra:
+    image: cassandra:jammy
+    container_name: container-1-cassandra
+    ports:
+      - "9042:9042"
+    environment:
+      - CASSANDRA_SEEDS=node-2-cassandra
+# Connecting to 2nd DB
+    networks:
+      - cassandra-network
+  node-2-cassandra:
+    image: cassandra:jammy
+    container_name: container-2-cassandra
+    ports:
+      - "9043:9042"
+    environment:
+      - CASSANDRA_SEEDS=node-1-cassandra
+# Connecting to 1st DB
+    networks:
+      - cassandra-network
+
+networks:
+  cassandra-network:
+
+
